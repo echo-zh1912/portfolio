@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>冬木 | 视觉设计作品集</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;}
+body{
+  background: #fff;
+  color: #1c1c1c;
+  overflow-x: hidden;
+}
+
+nav { display: none; }
+
+.layout-wrap{
+  display:flex;
+  min-height: 100vh;
+}
+
+.sidebar{
+  width:20%;
+  position:fixed;
+  top:0; left:0;
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+  overflow-y:auto;
+  background: transparent;
+}
+
+.logo-area{
+  margin-bottom: 36px;
+  margin-left: 0;
+  padding-left: 0;
+}
+.logo-area img{
+  width: 213px;
+  height: 80px;
+  object-fit: contain;
+  cursor: pointer;
+  padding: 0;
+  margin:0;
+}
+
+.sidebar-item{
+  margin-bottom: 8px;
+  cursor:pointer;
+  font-size:15px;
+  color:#666;
+  padding:10px 14px;
+  transition: all 0.32s cubic-bezier(0.16,1,0.3,1);
+  border-radius: 0;
+  background: transparent !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar-item:hover{
+  background: transparent;
+  color:#2A6CF3;
+  transform: translateX(4px);
+}
+.sidebar-item.active{
+  background: transparent;
+  color:#EB7F46;
+  font-weight:500;
+  transform: translateX(4px);
+}
+
+.about-link{
+  margin-top: 36px;
+  font-size:14px;
+  color:#333;
+  text-decoration: none;
+  padding:10px 14px;
+  display: block;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.about-link:hover{
+  opacity:0.7;
+}
+
+.main-content{
+  width:80%;
+  margin-left:20%;
+  padding:60px 20px;
+}
+.grid-wrap{
+  column-count: 2;
+  column-gap: 10px;
+  opacity:0;
+  transition: opacity 0.4s ease;
+}
+.grid-wrap.visible{
+  opacity:1;
+}
+
+/* 长图 >650px 折叠 */
+.grid-item{
+  cursor:pointer;
+  position:relative;
+  border-radius: 0;
+  overflow:hidden;
+  transition: all 0.36s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  margin-bottom: 10px;
+  break-inside: avoid;
+  max-height: 650px;
+  overflow: hidden;
+}
+.grid-item:hover{
+  transform: translateY(-6px) scale(0.97);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+}
+.grid-item img{
+  width:100%;
+  height:auto;
+  display:block;
+  transition: transform 0.44s ease;
+}
+.grid-item:hover img{
+  transform: scale(1.04);
+}
+
+.grid-item::after{
+  content: attr(data-title);
+  position:absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 15px;
+  color:#fff;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  opacity:0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.grid-item:hover::after{
+  opacity:1;
+}
+
+/* ===================== 全屏预览（核心修复：自适应屏幕高度） ===================== */
+.fullscreen-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  overflow: auto;
+}
+.fullscreen-overlay.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+.full-img-container{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 关键：自适应屏幕高度，宽度等比例 */
+.fullscreen-img{
+  height: 100vh;        /* 高度 = 浏览器高度 */
+  max-width: 100%;      /* 宽度不超出屏幕 */
+  object-fit: contain;
+  cursor: grab;
+  transition: transform 0.1s ease;
+}
+
+/* 点击区域：左=上一张 | 中=关闭 | 右=下一张 */
+.click-prev{
+  position:fixed; left:0; top:0; width:33.333%; height:100vh; background:transparent; z-index:10;
+}
+.click-close{
+  position:fixed; left:33.333%; top:0; width:33.333%; height:100vh; background:transparent; z-index:10;
+}
+.click-next{
+  position:fixed; right:0; top:0; width:33.333%; height:100vh; background:transparent; z-index:10;
+}
+</style>
+</head>
+<body>
+
+<div class="layout-wrap">
+  <div class="sidebar" id="sidebarBox">
+    <div class="logo-area">
+      <img src="logo.png" alt="冬木 DESIGN" onclick="location.href='index.html'">
+    </div>
+    <a href="about.html" class="about-link">关于我</a>
+  </div>
+
+  <div class="main-content">
+    <div class="grid-wrap" id="gridBox"></div>
+  </div>
+</div>
+
+<!-- 全屏层 -->
+<div class="fullscreen-overlay" id="overlay">
+  <div class="full-img-container">
+    <img class="fullscreen-img" id="fullImg">
+  </div>
+
+  <div class="click-prev" id="prevBtn"></div>
+  <div class="click-close" id="closeBtn"></div>
+  <div class="click-next" id="nextBtn"></div>
+</div>
+
+<script src="works.js"></script>
+<script>
+const categories = [
+  { name: "品牌大事件与空间体验", value: "brandEvent" },
+  { name: "零售终端与渠道物料", value: "retailMaterial" },
+  { name: "新媒体与私域视觉运营", value: "newMedia" },
+  { name: "品牌物料与内部文化", value: "brandCulture" },
+  { name: "插画设计", value: "illustration" }
+];
+
+const sidebarBox = document.getElementById("sidebarBox");
+const gridBox = document.getElementById("gridBox");
+const overlay = document.getElementById("overlay");
+const fullImg = document.getElementById("fullImg");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+let currentWorks = [];
+let currentIndex = 0;
+let currentCateVal = "";
+let scale = 1;
+
+// 生成侧边分类
+categories.forEach((item, index) => {
+  let div = document.createElement("div");
+  div.className = "sidebar-item" + (index === 0 ? " active" : "");
+  div.innerText = item.name;
+  div.onclick = () => switchCategory(item.value, div);
+  sidebarBox.insertBefore(div, document.querySelector(".about-link"));
+});
+
+// 切换分类
+function switchCategory(cateVal, el) {
+  document.querySelectorAll(".sidebar-item").forEach(i => i.classList.remove("active"));
+  el.classList.add("active");
+  currentCateVal = cateVal;
+  
+  gridBox.classList.remove("visible");
+  setTimeout(() => {
+    gridBox.innerHTML = "";
+    currentWorks = allWorks.filter(v => v.cate === cateVal);
+    
+    currentWorks.forEach((work, idx) => {
+      let div = document.createElement("div");
+      div.className = "grid-item";
+      div.dataset.title = work.title;
+      let img = document.createElement("img");
+      img.src = work.cover;
+      div.appendChild(img);
+
+      // 品牌分类跳转详情，其余全屏
+      if(cateVal === "brandEvent"){
+        div.onclick = () => {
+          localStorage.setItem("nowWorkId", work.id);
+          location.href = "detail.html";
+        };
+      } else {
+        div.onclick = () => {
+          currentIndex = idx;
+          openFull();
+        };
+      }
+      
+      gridBox.appendChild(div);
+    });
+    gridBox.classList.add("visible");
+  }, 150);
+}
+
+// 打开全屏
+function openFull(){
+  scale = 1;
+  fullImg.src = currentWorks[currentIndex].cover;
+  fullImg.style.transform = `scale(${scale})`;
+  overlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+  overlay.scrollTop = 0;
+}
+
+// 关闭全屏
+closeBtn.onclick = () => {
+  overlay.classList.remove("show");
+  document.body.style.overflow = "auto";
+};
+
+// 上一张 / 下一张
+prevBtn.onclick = () => {
+  currentIndex = (currentIndex - 1 + currentWorks.length) % currentWorks.length;
+  fullImg.src = currentWorks[currentIndex].cover;
+  scale = 1;
+  fullImg.style.transform = "scale(1)";
+  overlay.scrollTop = 0;
+};
+nextBtn.onclick = () => {
+  currentIndex = (currentIndex + 1) % currentWorks.length;
+  fullImg.src = currentWorks[currentIndex].cover;
+  scale = 1;
+  fullImg.style.transform = "scale(1)";
+  overlay.scrollTop = 0;
+};
+
+// 滚轮放大缩小
+overlay.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  scale += e.deltaY > 0 ? -0.1 : 0.1;
+  if (scale < 0.2) scale = 0.2;
+  fullImg.style.transform = `scale(${scale})`;
+});
+
+// 拖动查看
+overlay.addEventListener("mousedown", (e) => {
+  const startY = e.clientY;
+  const scrollTop = overlay.scrollTop;
+  const onMove = (e) => {
+    overlay.scrollTop = scrollTop - (e.clientY - startY);
+  };
+  const onUp = () => {
+    window.removeEventListener("mousemove", onMove);
+    window.removeEventListener("mouseup", onUp);
+  };
+  window.addEventListener("mousemove", onMove);
+  window.addEventListener("mouseup", onUp);
+});
+
+switchCategory(categories[0].value, document.querySelector(".sidebar-item"));
+</script>
+</body>
+</html>
