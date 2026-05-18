@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>关于我 | 冬木</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif;}
+body{
+  background: #fff;
+  color: #1c1c1c;
+  padding-top: 80px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* 导航栏（保持全站统一） */
+nav{
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  padding: 26px 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.logo{
+  font-size:16px;
+  font-weight:500;
+  letter-spacing:1px;
+  cursor: pointer;
+}
+.nav-a a{
+  margin-left:30px;
+  text-decoration:none;
+  color:#1c1c1c;
+  font-size:14px;
+  opacity:0.85;
+  transition: all 0.3s ease;
+}
+.nav-a a:hover{
+  opacity:1;
+  transform: translateY(-1px);
+}
+
+/* 参考图核心布局：左图(5/12) + 右文(7/12) */
+.about-container{
+  display:flex;
+  gap:60px;
+  max-width:1200px;
+  margin:0 auto;
+  padding:80px 5% 140px;
+  align-items: flex-start;
+}
+
+/* 左侧个人照片区域 */
+.about-img{
+  width:41.67%; /* 5/12 */
+}
+.about-img img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit: contain;
+}
+
+/* 右侧文字区域 */
+.about-text{
+  width:58.33%; /* 7/12 */
+}
+.about-text h1{
+  font-size:40px;
+  font-weight:500;
+  line-height:1.2;
+  margin-bottom:30px;
+}
+.about-text p{
+  font-size:15px;
+  line-height:1.8;
+  color:#333;
+  margin-bottom:20px;
+}
+.about-text .info-section{
+  margin-top:40px;
+  font-size:13px;
+  color:#555;
+  border-top:1px solid #eee;
+  padding-top:20px;
+}
+.about-text .info-section p{
+  margin:5px 0;
+}
+.about-text .social-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:15px;
+  font-size:13px;
+  color:#333;
+  text-decoration:none;
+}
+.about-text .social-link:hover{
+  color:#000;
+}
+
+/* 移动端适配 */
+@media(max-width:900px){
+  .about-container{
+    flex-direction:column;
+    gap:40px;
+    padding:60px 5% 100px;
+  }
+  .about-img, .about-text{
+    width:100%;
+  }
+  .about-text h1{
+    font-size:30px;
+  }
+}
+</style>
+</head>
+<body>
+<nav>
+    <div class="logo" onclick="location.href='index.html'">冬木 DESIGN</div>
+    <div class="nav-a">
+        <a href="index.html">首页</a>
+        <a href="about.html">关于我</a>
+    </div>
+</nav>
+
+<div class="about-container">
+    <!-- 左侧个人照片：替换为你的图片即可 -->
+    <div class="about-img">
+        <img src="about_profile.jpg" alt="冬木">
+    </div>
+
+    <!-- 右侧文字内容 -->
+    <div class="about-text">
+        <h1>冬木</h1>
+        <p>品牌视觉设计师，6年餐饮与零售行业设计经验。</p>
+        <p>擅长品牌视觉落地与活动全案执行，从展会空间到零售终端、从新媒体运营到周边产品开发均有完整项目经验。</p>
+        <p>能独立对接需求、梳理Brief、把控从创意到落地的全流程，适配线上线下多渠道视觉输出。</p>
+        <p>熟练使用 ai智能工具出图， PS / AI等设计软件，可独立完成从前期策划、视觉定稿到落地输出全流程工作。</p>
+
+        <div class="info-section">
+            <p>INFORMATION:</p>
+            <p>邮箱：dongmu_zh@163.com</p>
+            <a href="#" class="social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Instagram
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
