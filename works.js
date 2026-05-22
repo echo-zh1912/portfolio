@@ -281,7 +281,7 @@ const allWorks = [
     },
     {
         id:36,
-        cover:"1ddppt1.jpg",
+        cover:"1ddppt.jpg",
         imgs:["c1.jpg"],
         title:"1点点PPT模版",
         cate:"brandCulture",
